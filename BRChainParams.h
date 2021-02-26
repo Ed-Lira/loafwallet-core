@@ -52,7 +52,9 @@ static const char *BRMainNetDNSSeeds[] = {
         "91.205.172.38",
         "66.151.242.154",
         "145.239.0.50",
-        "83.221.211.116", NULL};
+        "83.221.211.116",
+        NULL
+};
 
 static const char *BRTestNetDNSSeeds[] = {
     "dnsseed-testnet.rshaw.space",
@@ -61,7 +63,8 @@ static const char *BRTestNetDNSSeeds[] = {
     "91.205.172.38",
     "66.151.242.154",
     "145.239.0.50",
-    "83.221.211.116", NULL};
+    "83.221.211.116",
+    NULL
 };
 
 // blockchain checkpoints - these are also used as starting points for partial chain downloads, so they must be at
