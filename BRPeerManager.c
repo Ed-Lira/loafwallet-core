@@ -50,7 +50,7 @@
 #if LITECOIN_TESTNET
 
 static const struct { uint32_t height; const char *hash; uint32_t timestamp; uint32_t target; } checkpoint_array[] = {
-        {0, uint256("b25004ec2dc27689999f9ee14856ee0464d7f73f3fae3cf43c1d40f89c141aea"), 1516729643, 0x0x1e0ffff0}
+        {0, "b25004ec2dc27689999f9ee14856ee0464d7f73f3fae3cf43c1d40f89c141aea", 1516729643, 0x0x1e0ffff0}
 };
 
 static const char *dns_seeds[] = {
@@ -69,13 +69,13 @@ static const char *dns_seeds[] = {
 // blockchain checkpoints - these are also used as starting points for partial chain downloads, so they need to be at
 // difficulty transition boundaries in order to verify the block difficulty at the immediately following transition
 static const struct { uint32_t height; const char *hash; uint32_t timestamp; uint32_t target; } checkpoint_array[] = {
-        {  0, uint256("2ada80bf415a89358d697569c96eb98cdbf4c3b8878ac5722c01284492e27228"), 1515925970, 0x1e0ffff0},
-        {  10000, uint256("e3d63206131fbdc8e60be5625d3bf9168a8b0ebeb04332e39e9ff8f0c541eaf4"), 1516819076, 0x1c0c8186},
-        {  50000, uint256("8edf265583f0277f634adc86d7a60b240e7a238f714054e2b7b0f7fdaee96411"), 1518460855, 0x1c049e36 },
-        {  150000, uint256("c9f34878e0b733bc48def84e80fd6b252fcdfff8178ea89770c106280f82c6a6"), 1522568524, 0x1c0206c6},
-        {  200000, uint256("566b5c09f86ef4baa9198900f98671c333d16da9aeba7ea094fc82823de9e575"), 1524623291, 0x1c01d44e},
-        {  275000, uint256("aee6f2165bf257c4454dac271e6f7fa1d1cb62b65d288d625b06b8343e38ae2c"), 1527705336, 0x1c03ca9e},
-        {  296069, uint256("787f605104c2611c05563bb0200e81de9c37fec28b27852b08ccfa9983d21fd8"), 1528570453, 0x1c0404ff},
+        {  0, "2ada80bf415a89358d697569c96eb98cdbf4c3b8878ac5722c01284492e27228", 1515925970, 0x1e0ffff0},
+        {  10000, "e3d63206131fbdc8e60be5625d3bf9168a8b0ebeb04332e39e9ff8f0c541eaf4", 1516819076, 0x1c0c8186},
+        {  50000, "8edf265583f0277f634adc86d7a60b240e7a238f714054e2b7b0f7fdaee96411", 1518460855, 0x1c049e36 },
+        {  150000, "c9f34878e0b733bc48def84e80fd6b252fcdfff8178ea89770c106280f82c6a6", 1522568524, 0x1c0206c6},
+        {  200000, "566b5c09f86ef4baa9198900f98671c333d16da9aeba7ea094fc82823de9e575", 1524623291, 0x1c01d44e},
+        {  275000, "aee6f2165bf257c4454dac271e6f7fa1d1cb62b65d288d625b06b8343e38ae2c", 1527705336, 0x1c03ca9e},
+        {  296069, "787f605104c2611c05563bb0200e81de9c37fec28b27852b08ccfa9983d21fd8", 1528570453, 0x1c0404ff},
 };
 
 static const char *dns_seeds[] = {
