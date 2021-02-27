@@ -44,9 +44,9 @@
 #include <arpa/inet.h>
 
 #if LITECOIN_TESTNET
-#define MAGIC_NUMBER 0xf1c8d2fd
+#define MAGIC_NUMBER 0xfdd2c8f2
 #else
-#define MAGIC_NUMBER 0xdbb6c0fb
+#define MAGIC_NUMBER 0xd2c6b6db
 #endif
 #define HEADER_LENGTH      24
 #define MAX_MSG_LENGTH     0x02000000
