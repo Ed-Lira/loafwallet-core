@@ -31,6 +31,7 @@
 #include <string.h>
 #include <assert.h>
 #include <crypto/allium/allium.h>
+#include <android/log.h>
 
 #define MAX_PROOF_OF_WORK 0x1e0fffffL    // highest value for difficulty target (higher values are less difficult)
 #define TARGET_TIMESPAN   3600        // the targeted timespan between difficulty target adjustments (3.5*24*60*60)
@@ -86,7 +87,7 @@ BRMerkleBlock *BRMerkleBlockNew(void)
 
 // buf must contain either a serialized merkleblock or header
 // returns a merkle block struct that must be freed by calling BRMerkleBlockFree()
-BRMerkleBlock *BRMerkleBlockParse(const uint8_t *buf, size_t bufLen)
+BRMerkleBlock *BRMerkleBlockParse(const uint8_t *buf, size_t bufLen, uint32_t blockHeight)
 {
     BRMerkleBlock *block = (buf && 80 <= bufLen) ? BRMerkleBlockNew() : NULL;
     size_t off = 0, len = 0;
@@ -122,10 +123,18 @@ BRMerkleBlock *BRMerkleBlockParse(const uint8_t *buf, size_t bufLen)
             block->flags = (off + len <= bufLen) ? malloc(len) : NULL;
             if (block->flags) memcpy(block->flags, &buf[off], len);
         }
-        
+
+        //TODO REMOVE THIS LOG BEFORE PROD
+        __android_log_print(ANDROID_LOG_INFO, "comparing", "version: %i\nmerkleroot:%s\nnbits:%i",
+                            block->version, u256_hex_encode(block->merkleRoot), block->target);
+
         BRSHA256_2(&block->blockHash, buf, 80);
-        //BRScrypt(&block->powHash, sizeof(block->powHash), buf, 80, buf, 80, 10, 1, 1);
-        allium_hash(&block->version, &block->powHash);
+
+        if (blockHeight >= 58670) { //todo diff value for testnet
+            allium_hash(&block->version, &block->powHash);
+        } else {
+            BRScrypt(&block->powHash, sizeof(block->powHash), buf, 80, buf, 80, 2048, 1, 1);
+        }
     }
     
     return block;
@@ -279,6 +288,13 @@ int BRMerkleBlockIsValid(const BRMerkleBlock *block, uint32_t currentTime)
 
     if (size > 3) UInt32SetLE(&t.u8[size - 3], target);
     else UInt32SetLE(t.u8, target >> (3 - size)*8);
+
+    //TODO REMOVE BEFORE PROD
+    __android_log_print(ANDROID_LOG_INFO, "comparing", "for block: %s\n%s\n%s",
+                        u256_hex_encode(block->blockHash),
+                        u256_hex_encode(block->powHash),
+                        u256_hex_encode(t)
+    );
 
     for (int i = sizeof(t) - 1; r && i >= 0; i--) { // check proof-of-work
         if (block->powHash.u8[i] < t.u8[i]) break;

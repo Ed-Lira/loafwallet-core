@@ -1961,8 +1961,8 @@ int BRMerkleBlockTests()
     "\xf9\xd2\x61\xb8\x27\x3b\x52\x5b\x02\xff\x1a";
     uint8_t block2[sizeof(block) - 1];
     BRMerkleBlock *b;
-    
-    b = BRMerkleBlockParse((uint8_t *)block, sizeof(block) - 1);
+
+    b = BRMerkleBlockParse((uint8_t *) block, sizeof(block) - 1, 0); //TODO fix this test case. Block height needs to be set.
     
     if (! UInt256Eq(b->blockHash,
         UInt256Reverse(u256_hex_decode("00000000000080b66c911bd5ba14a74260057311eaeb1982802f7010f1a9f090"))))
