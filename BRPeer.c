@@ -485,7 +485,7 @@ static int _BRPeerAcceptHeadersMessage(BRPeer *peer, const uint8_t *msg, size_t 
                 BRMerkleBlock *block = BRMerkleBlockParse(&msg[off + 81 * i], 81, ctx->currentBlockHeight);
                 
                 if (! BRMerkleBlockIsValid(block, (uint32_t)now)) {
-                    peer_log(peer, "invalid block header: %s", u256_hex_encode(block->blockHash));
+                    peer_log(peer, "invalid block header at height %i: %s", ctx->currentBlockHeight, u256_hex_encode(block->blockHash));
                     BRMerkleBlockFree(block);
                     r = 0;
                 }
@@ -695,7 +695,7 @@ static int _BRPeerAcceptMerkleblockMessage(BRPeer *peer, const uint8_t *msg, siz
     BRPeerContext *ctx = (BRPeerContext *)peer;
     BRMerkleBlock *block = BRMerkleBlockParse(msg, msgLen, ctx->currentBlockHeight);
     int r = 1;
-    peer_log(peer, "parsing merkleblock: %i",  ctx->currentBlockHeight); //TODO REMOVE BEFORE PROD
+    //peer_log(peer, "parsing merkleblock: %i",  ctx->currentBlockHeight); //TODO REMOVE BEFORE PROD
     if (! block) {
         peer_log(peer, "malformed merkleblock message with length: %zu", msgLen);
         r = 0;
@@ -1000,7 +1000,15 @@ static void *_peerThreadRoutine(void *arg)
                         if (! error && time >= msgTimeout) error = ETIMEDOUT;
                         socket = ctx->socket;
                     }
-                    
+
+                    /*
+                    char *s = malloc(len * 2 + 1);
+                    for (size_t i = 0; i < len; i++)
+                        sprintf(s + i * 2, "%02x", payload[i]);
+                    peer_log(peer, "payload %s", s);
+                    free(s);
+                     */
+
                     if (error) {
                         peer_log(peer, "%s", strerror(error));
                     }

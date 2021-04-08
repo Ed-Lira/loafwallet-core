@@ -875,7 +875,8 @@ static void _peerDisconnected(void *info, int error)
     void (*txCallback[array_count(manager->publishedTx)])(void *, int);
     
     if (error == EPROTO) { // if it's protocol error, the peer isn't following standard policy
-        _BRPeerManagerPeerMisbehavin(manager, peer);
+        //TODO _BRPeerManagerPeerMisbehavin(manager, peer);
+        //This should probably not be removed
     }
     else if (error) { // timeout or some non-protocol related network error
         for (size_t i = array_count(manager->peers); i > 0; i--) {

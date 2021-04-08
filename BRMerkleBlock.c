@@ -124,15 +124,18 @@ BRMerkleBlock *BRMerkleBlockParse(const uint8_t *buf, size_t bufLen, uint32_t bl
             if (block->flags) memcpy(block->flags, &buf[off], len);
         }
 
-        //TODO REMOVE THIS LOG BEFORE PROD
+        /*
         __android_log_print(ANDROID_LOG_INFO, "comparing", "version: %i\nmerkleroot:%s\nnbits:%i",
                             block->version, u256_hex_encode(block->merkleRoot), block->target);
+        */
 
         BRSHA256_2(&block->blockHash, buf, 80);
 
         if (blockHeight >= 58670) { //todo diff value for testnet
-            allium_hash(&block->version, &block->powHash);
+            //__android_log_print(ANDROID_LOG_INFO, "comparing", "using ALLIUM pow for block %i", blockHeight);
+            allium_hash(buf, (char *) &block->powHash);
         } else {
+            //__android_log_print(ANDROID_LOG_INFO, "comparing", "using SCRYPT pow for block %i", blockHeight);
             BRScrypt(&block->powHash, sizeof(block->powHash), buf, 80, buf, 80, 2048, 1, 1);
         }
     }
@@ -290,11 +293,13 @@ int BRMerkleBlockIsValid(const BRMerkleBlock *block, uint32_t currentTime)
     else UInt32SetLE(t.u8, target >> (3 - size)*8);
 
     //TODO REMOVE BEFORE PROD
+    /*
     __android_log_print(ANDROID_LOG_INFO, "comparing", "for block: %s\n%s\n%s",
                         u256_hex_encode(block->blockHash),
                         u256_hex_encode(block->powHash),
                         u256_hex_encode(t)
     );
+    */
 
     for (int i = sizeof(t) - 1; r && i >= 0; i--) { // check proof-of-work
         if (block->powHash.u8[i] < t.u8[i]) break;
